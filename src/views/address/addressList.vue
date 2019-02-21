@@ -45,6 +45,7 @@ export default {
   methods: {
     onAdd() {
       this.$toast('新增地址');
+      this.$router.push({ name: 'address', params: { value: 'id' } });
     },
 
     onEdit(item, index) {

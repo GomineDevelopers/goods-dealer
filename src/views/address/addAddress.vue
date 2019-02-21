@@ -54,10 +54,13 @@ export default {
       searchResult: [],
       addressData: {},
       backImg: {},
-      fontImg: {}
+      fontImg: {},
+      pageparams: {}
     }
   },
-
+  mounted() {
+    this.pageparams.value = this.$route.params.value;
+  },
   methods: {
     // 地址选择
     onSave(value) {
