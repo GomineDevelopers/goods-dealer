@@ -35,6 +35,7 @@ export default {
   },
   mounted() {
     this.goodsId = this.$route.params.value;
+    console.log(this.goodsId)
   },
   methods: {
     onClickMiniBtn() {
@@ -42,6 +43,20 @@ export default {
     },
     onClickBigBtn() {
       this.$toast('点击按钮');
+    },
+    getSingleProductData(){
+      this.$http.get('https://icampaign.com.cn/gomineWechat/app/index.php',{
+        params:{
+          i:"8",
+          c:"entry",
+          do:"shop",
+          m:"ewei_shop",
+          p:"list",
+          page:"1",
+          api:true,
+          ccate:"35"
+        }
+      })
     }
   }
 }

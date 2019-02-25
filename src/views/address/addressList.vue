@@ -1,8 +1,9 @@
 <template>
   <div>
     <van-address-list
+     
       v-model="chosenAddressId"
-      :list="list"
+      :list="addressList"
       :disabled-list="disabledList"
       disabled-text="以下地址超出配送范围"
       @add="onAdd"
@@ -17,7 +18,7 @@ export default {
   data() {
     return {
       chosenAddressId: '1',
-      list: [
+      addressList: [
         {
           id: '1',
           name: '张三',
@@ -41,7 +42,9 @@ export default {
       ]
     }
   },
-
+mounted(){
+this.getAddressListData();
+},
   methods: {
     onAdd() {
       this.$toast('新增地址');
@@ -50,6 +53,24 @@ export default {
 
     onEdit(item, index) {
       this.$toast('编辑地址:' + index);
+    },
+    getAddressListData(){//初始获取地址列表信息
+      let vm=this;
+      vm.$http.get('https://icampaign.com.cn/gomineWechat/app/index.php',{
+        params:{
+          i: "8",
+          c: "entry",
+          do: "shop",
+          m: "ewei_shop",
+          p: "address",
+          api: "true",
+          
+        }
+      }).then(function (response) {
+        vm.addressList=response.data.result.list;
+        
+      })
+
     }
   }
 }

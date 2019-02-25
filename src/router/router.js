@@ -44,6 +44,12 @@ export default new Router({
       component: () => import('../views/buy/buySuccessful.vue')
     },
     {
+      path: '/orderlist',
+      name: 'orderlist',
+      component: () => import('../views/buy/orderList.vue')
+    },
+    // 注册
+    {
       path: '/register',
       name: 'register',
       component: () => import('../views/register/register.vue')

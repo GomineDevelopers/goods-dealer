@@ -43,31 +43,30 @@ export default {
   name: 'goods-list',
   data() {
     return {
-      goods: [],
-      list: [],
-      imageURL: '',
+      goods: [],//商品信息为一个数组
       loading: false,   //是否处于加载状态
       finished: false,  //是否已加载完所有数据
       isLoading: false,   //是否处于下拉刷新状态
-      currentPage: '1',
-      total: '',
-      searchValue: '',
+      currentPage: '1',//当前页码，初始化为1
+      total: '',//总的页数量
+      searchValue: '',//搜索关键字
+      usertype:'1'//用户类型
     }
   },
-  directives: {
-    focus: {
-      // 指令的定义
-      inserted: function (search) {
-        search.focus()
-      }
-    },
-    onblur: {
-      // 指令的定义
-      inserted: function (search) {
-        search.onblur()
-      }
-    }
-  },
+  // directives: {
+  //   focus: {
+  //     // 指令的定义
+  //     inserted: function (search) {
+  //       search.focus()
+  //     }
+  //   },
+  //   onblur: {
+  //     // 指令的定义
+  //     inserted: function (search) {
+  //       search.onblur()
+  //     }
+  //   }
+  // },
   mounted() {
     let vm = this;
     vm.onLoad();
@@ -142,8 +141,14 @@ export default {
       })
     },
     goDetail(id) {
-      this.$toast('新增地址');
-      this.$router.push({ name: 'address', params: { value: id } });
+      if(this.usertype=='1'){
+      this.$toast('初次进入跳转个人信息页面');
+      this.$router.push({ name: 'goodsdetail', params: { value: id } });
+      }else{
+        this.$toast('跳转商品详情');
+        this.$router.push({name:'orderlist', params:{value:id}})
+      }
+     
     }
   },
 }
