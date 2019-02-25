@@ -31,6 +31,7 @@
           :desc='item.marketprice'
           :title='item.title'
           :thumb="item.thumb"
+          @click="goDetail(item.id)"
         />
       </van-list>
     </van-pull-refresh>
@@ -139,6 +140,10 @@ export default {
         }
         vm.isLoading = false;
       })
+    },
+    goDetail(id) {
+      this.$toast('新增地址');
+      this.$router.push({ name: 'address', params: { value: id } });
     }
   },
 }

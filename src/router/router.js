@@ -30,7 +30,7 @@ export default new Router({
     {
       path: '/goodsdetail',
       name: 'goodsdetail',
-      component: () => import('../views/goods/goodsList.vue')
+      component: () => import('../views/goods/goodsDetail.vue')
     },
     // 商品购买
     {
