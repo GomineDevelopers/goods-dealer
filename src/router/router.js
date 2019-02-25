@@ -5,7 +5,10 @@ export default new Router({
   routes: [{
       path: '/',
       name: 'home',
-      component: () => import('../components/HelloWorld.vue')
+      component: () => import('../components/HelloWorld.vue'),
+      meta: {
+        title: '测试helloWorld页面',
+      },
     },
     // 地址管理
     {
