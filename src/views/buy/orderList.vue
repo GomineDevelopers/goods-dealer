@@ -45,7 +45,7 @@
             </div>
             <div class="card-bottom">
               <div class="left">
-                <!-- <span>快递单号 <span>211231231231</span></span> -->
+                <span>快递单号：<span></span></span>
               </div>
               <div class="right"><span>合计 <span class="price-label"><span>￥</span>345</span></span></div>
             </div>
@@ -75,7 +75,7 @@
             </div>
             <div class="card-bottom">
               <div class="left">
-                <span>快递单号 <span>211231231231</span></span>
+                <span>快递单号： <span>211231231231</span></span>
               </div>
               <div class="right"><span>合计 <span class="price-label"><span>￥</span>345</span></span></div>
             </div>
@@ -123,7 +123,7 @@ export default {
 }
 .card-top {
   display: flex;
-  height: 12vh;
+  height: 13vh;
   border-bottom: 1px solid #ededed;
 }
 .discription {
@@ -164,8 +164,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  height: 3vh;
-  line-height: 4vh;
+  height: 4vh;
+  line-height: 5vh;
 }
 .price-label {
   color: #ee5603;
