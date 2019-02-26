@@ -6,7 +6,7 @@ import Vant from 'vant';
 import axios from 'axios'
 import 'vant/lib/index.css';
 import qs from 'qs';
-
+import './assets/common.css'
 Vue.config.productionTip = false
 Vue.use(Vant);
 Vue.prototype.$qs = qs;

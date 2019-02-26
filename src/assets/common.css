@@ -1,0 +1,8 @@
+/* 圆角搜索框 */
+.van-search .van-cell {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 3px 10px;
+  border-radius: 27px;
+}

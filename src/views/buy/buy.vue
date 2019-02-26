@@ -57,7 +57,8 @@ export default {
   name: 'goods-list',
   data() {
     return {
-      checked: false
+      checked: false,
+      imageURL: ''
     }
   },
   methods: {

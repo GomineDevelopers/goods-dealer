@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="goods-list">
     <van-search
       v-model="searchValue"
       placeholder="请输入搜索关键词"
@@ -50,7 +50,7 @@ export default {
       currentPage: '1',//当前页码，初始化为1
       total: '',//总的页数量
       searchValue: '',//搜索关键字
-      usertype:'1'//用户类型
+      usertype: '1'//用户类型
     }
   },
   // directives: {
@@ -141,18 +141,24 @@ export default {
       })
     },
     goDetail(id) {
-      if(this.usertype=='1'){
-      this.$toast('初次进入跳转个人信息页面');
-      this.$router.push({ name: 'goodsdetail', params: { value: id } });
-      }else{
+      if (this.usertype == '0') {
+        this.$toast('初次进入请填写个人信息页面');
+        this.$router.push({ name: 'addaddress', params: { value: id } });
+      } else {
         this.$toast('跳转商品详情');
-        this.$router.push({name:'orderlist', params:{value:id}})
+        this.$router.push({ name: 'goodsdetail', params: { value: id } })
       }
-     
+
     }
   },
 }
 </script>
-<style scoped>
+<style scoped >
+.van-card__thumb img {
+  border: 0;
+  max-width: 100%;
+  /* max-height: 100%; */
+  height: 100%;
+}
 </style>
 

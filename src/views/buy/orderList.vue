@@ -22,7 +22,30 @@
         sticky
       >
         <van-tab title="待付款">
-          
+          <div class="card-wrapper">
+            <div class="card-top">
+              <div class="img-wrapper">
+                <img
+                  src=""
+                  alt=""
+                >
+              </div>
+              <div class="discription">
+                <div class="left-des">
+                  香奈儿时尚条纹单肩包
+                </div>
+                <div class="right-des">
+                  <span>X<span>2</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="card-bottom">
+              <div class="left">
+                <span>快递单号 <span>211231231231</span></span>
+              </div>
+              <div class="right"><span>合计 <span class="price-label"><span>￥</span>345</span></span></div>
+            </div>
+          </div>
         </van-tab>
         <van-tab title="待发货">内容 2</van-tab>
         <van-tab title="已发货">内容 3</van-tab>
@@ -53,5 +76,43 @@ export default {
 }
 .van-search .van-cell {
   border-radius: 18px;
+}
+.card-wrapper {
+  margin: 0.5vh 0;
+  padding: 2vh;
+  box-shadow: 0 2px 4px 0 rgba(204, 204, 204, 0.5);
+}
+.img-wrapper {
+  width: 20vw;
+  height: 12vh;
+}
+.card-top {
+  display: flex;
+  height: 12vh;
+  border-bottom: 1px solid #ededed;
+}
+.discription {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  background-color: antiquewhite;
+}
+.left-des,
+.right-des {
+  padding: 3px;
+}
+.img-wrapper > img {
+  width: 90px;
+  height: 90px;
+  background-color: bisque;
+}
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.price-label {
+  color: #ee5603;
 }
 </style>
