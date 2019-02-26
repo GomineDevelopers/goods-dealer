@@ -37,6 +37,7 @@
         postData.city = content.city;
         postData.county = content.county;
         postData.addressDetail = content.addressDetail;
+        postData.areaCode = content.areaCode;
 
         vm.$http({
           method: 'post',
