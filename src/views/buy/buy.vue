@@ -30,8 +30,14 @@
         origin-price="10.00"
       >
         <div slot="footer">
-          <van-button size="mini">增加</van-button>
-          <van-button size="mini">减少</van-button>
+          <van-button
+            size="mini"
+            class="decrease"
+          >减少</van-button>
+          <van-button
+            size="mini"
+            class=" increase"
+          >增加</van-button>
         </div>
       </van-card>
       <van-card
@@ -44,8 +50,14 @@
         origin-price="10.00"
       >
         <div slot="footer">
-          <van-button size="mini">增加</van-button>
-          <van-button size="mini">减少</van-button>
+          <van-button
+            size="mini"
+            class="decrease"
+          >减少</van-button>
+          <van-button
+            size="mini"
+            class="increase"
+          >增加</van-button>
         </div>
       </van-card>
     </div>
@@ -150,5 +162,9 @@ export default {
 }
 .goods {
   margin: 1vh 0;
+}
+.increase {
+  background-color: #ee5603;
+  color: white;
 }
 </style>
