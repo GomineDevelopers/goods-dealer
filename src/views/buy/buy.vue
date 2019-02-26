@@ -1,13 +1,22 @@
 <template>
   <div class="buy">
     <div class="address-wrapper">
-      <div> </div>
-      <div>
-        <div>
-          <div></div>
-          <div></div>
+      <div class="location-wrapper">
+        <van-icon name="location-o" />
+      </div>
+      <div class="right-detail">
+        <div class="middle">
+          <div class="top-part">
+            <div><span>收件人：<span>张呵呵呵</span></span></div>
+            <div>
+              <span>电话：<span>13956888727</span></span>
+            </div>
+          </div>
+          <div class="top-part">浙江省金华市婺城区道心街338号四楼</div>
         </div>
-        <div>浙江省金华市婺城区道心街338号四楼</div>
+        <div class="arrow-right">
+          <van-icon name="arrow" />
+        </div>
       </div>
     </div>
     <div class="goods">
@@ -21,8 +30,8 @@
         origin-price="10.00"
       >
         <div slot="footer">
-          <van-button size="mini">按钮</van-button>
-          <van-button size="mini">按钮</van-button>
+          <van-button size="mini">增加</van-button>
+          <van-button size="mini">减少</van-button>
         </div>
       </van-card>
       <van-card
@@ -35,8 +44,8 @@
         origin-price="10.00"
       >
         <div slot="footer">
-          <van-button size="mini">按钮</van-button>
-          <van-button size="mini">按钮</van-button>
+          <van-button size="mini">增加</van-button>
+          <van-button size="mini">减少</van-button>
         </div>
       </van-card>
     </div>
@@ -74,8 +83,38 @@ export default {
 }
 .address-wrapper {
   position: relative;
-  height: 20vh;
+  min-height: 15vh;
   width: 100%;
+  display: flex;
+}
+.location-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+}
+.top-part {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vh;
+}
+.right-detail {
+  width: 100%;
+  padding: 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.right-detail > .middle {
+  width: 100%;
+}
+.arrow-right {
+  width: 20px;
+}
+.arrow-right .right-detail .top-part {
+  width: 100%;
+  padding: 0.5vh;
+  display: flex;
+  justify-content: space-between;
 }
 .address-wrapper::before {
   content: "";
@@ -108,5 +147,8 @@ export default {
     transparent 50%
   );
   background-size: 80px;
+}
+.goods {
+  margin: 1vh 0;
 }
 </style>
