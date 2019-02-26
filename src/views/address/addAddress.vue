@@ -30,14 +30,7 @@
     <div class="address-wrapper">
       <van-address-edit
         :area-list="areaList"
-        show-postal
-        show-delete
-        show-set-default
-        show-search-result
-        :search-result="searchResult"
         @save="onSave"
-        @delete="onDelete"
-        v-model="addressData"
       />
     </div>
 
@@ -46,30 +39,44 @@
 <script>
 import AreaList from './Area';
 export default {
-
   name: 'add-adress',
   data() {
     return {
       areaList: AreaList,
-      searchResult: [],
       addressData: {},
       backImg: {},
-      fontImg: {},
-      pageparams: {}
+      fontImg: {}
     }
   },
-  mounted() {
-    this.pageparams.value = this.$route.params.value;
-  },
+  mounted() {},
   methods: {
     // 地址选择
-    onSave(value) {
-      this.addressData = value
-    },
-    onDelete(value) {
-      value == {}
-      this.$toast('删除');
-
+    onSave(content) {
+      let vm = this;
+      let postData = {};
+      postData = content;
+      postData.op = 'submit';
+      vm.$http({
+        method: 'post',
+        url: 'https://icampaign.com.cn/gomineWechat/app/index.php',
+        params:{
+          i: "8",
+          c: "entry",
+          do: "shop",
+          m: "ewei_shop",
+          p: "address",
+          api: "true"
+        },
+        data:vm.$qs.stringify(postData)
+      })
+          .then(function (response) {
+            if(response.data.status === 1){
+              vm.$router.replace({name:'addresslist'})
+            }
+          })
+          .catch(function (error) {
+            console.info(error)
+          });
     },
     // 图片上传
     onReadImgFont(file) {
