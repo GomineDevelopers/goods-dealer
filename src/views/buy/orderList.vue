@@ -31,12 +31,46 @@
                 >
               </div>
               <div class="discription">
-                <div class="left-des">
-                  香奈儿时尚条纹单肩包
+                <div class="first-row">
+                  <div class="left-des">
+                    香奈儿时尚条纹单肩包
+                  </div>
+                  <div class="right-des">
+                    <span>X<span>2</span></span>
+                  </div>
                 </div>
-                <div class="right-des">
-                  <span>X<span>2</span></span>
+                <div class="">222</div>
+
+              </div>
+            </div>
+            <div class="card-bottom">
+              <div class="left">
+                <!-- <span>快递单号 <span>211231231231</span></span> -->
+              </div>
+              <div class="right"><span>合计 <span class="price-label"><span>￥</span>345</span></span></div>
+            </div>
+          </div>
+        </van-tab>
+        <van-tab title="待发货">
+          <div class="card-wrapper">
+            <div class="card-top">
+              <div class="img-wrapper">
+                <img
+                  src=""
+                  alt=""
+                >
+              </div>
+              <div class="discription">
+                <div class="first-row">
+                  <div class="left-des">
+                    香奈儿时尚条纹单肩包
+                  </div>
+                  <div class="right-des">
+                    <span>X<span>2</span></span>
+                  </div>
                 </div>
+                <div class="">222</div>
+
               </div>
             </div>
             <div class="card-bottom">
@@ -47,7 +81,6 @@
             </div>
           </div>
         </van-tab>
-        <van-tab title="待发货">内容 2</van-tab>
         <van-tab title="已发货">内容 3</van-tab>
       </van-tabs>
     </div>
@@ -73,17 +106,19 @@ export default {
 .order-list {
   width: inherit;
   height: inherit;
+  background-color: #ededed;
 }
 .van-search .van-cell {
   border-radius: 18px;
 }
 .card-wrapper {
-  margin: 0.5vh 0;
-  padding: 2vh;
+  margin: 1.2vh;
+  padding: 1vh;
+  background-color: #ffff;
   box-shadow: 0 2px 4px 0 rgba(204, 204, 204, 0.5);
 }
 .img-wrapper {
-  width: 20vw;
+  width: 30vw;
   height: 12vh;
 }
 .card-top {
@@ -93,17 +128,35 @@ export default {
 }
 .discription {
   width: 100%;
+  padding: 0.5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.discription .first-row {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  background-color: antiquewhite;
 }
+.left-des {
+  max-width: 180px;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: normal !important;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
 .left-des,
 .right-des {
   padding: 3px;
 }
 .img-wrapper > img {
-  width: 90px;
+  width: 30vw;
   height: 90px;
   background-color: bisque;
 }
@@ -111,8 +164,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  height: 3vh;
+  line-height: 4vh;
 }
 .price-label {
   color: #ee5603;
+  font-weight: bold;
 }
 </style>
