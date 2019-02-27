@@ -39,7 +39,7 @@ export default new Router({
     },
     // 商品购买
     {
-      path: '/buy',
+      path: '/buy/:uid/:id',
       name: 'buy',
       component: () => import('../views/buy/buy.vue')
     },

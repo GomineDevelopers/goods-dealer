@@ -50,7 +50,8 @@ export default {
       currentPage: '1',//当前页码，初始化为1
       total: '',//总的页数量
       searchValue: '',//搜索关键字
-      usertype: '1'//用户类型
+      usertype: '1',//用户类型
+      uid:''
     }
   },
   // directives: {
@@ -89,6 +90,7 @@ export default {
           }
         }).then(function (response) {
           vm.total = response.data.result.pagesize;
+          vm.uid = response.data.result.uid;
           vm.goods = vm.goods.concat(response.data.result.goods);
           vm.loading = false;
           vm.currentPage++;
@@ -146,7 +148,7 @@ export default {
         this.$router.push({ name: 'addaddress', params: { value: id } });
       } else {
         this.$toast('跳转商品详情');
-        this.$router.push({ name: 'goodsdetail', params: { value: id } })
+        this.$router.push({ name: 'goodsdetail', params: { id: id,uid:this.uid } })
       }
 
     }

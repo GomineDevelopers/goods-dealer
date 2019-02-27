@@ -21,10 +21,7 @@
     </div>
     <div class="detail-footer">
       <van-goods-action>
-        <div
-          class="van-info van-badge__info"
-          v-text="goodsCount"
-        >0</div>
+        <div class="van-info van-badge__info" v-text="goodsCount"></div>
         <van-goods-action-mini-btn
           icon="cart-o"
           text="购物车"
@@ -45,55 +42,56 @@
 </template>
 <script>
 export default {
-  name: 'goods-list',
+  name: 'goods-detail',
   data() {
     return {
       goodsDetail: {},//单个商品信息
       goodsId: "",//商品id
-      goodsCount: 0, //购物车数量
-
+      goodsCount: 0 //购物车数量
     }
   },
   mounted() {
-    this.goodsId = this.$route.params.value;//获取路由携带的商品id
+    this.goodsId = this.$route.params.id;//获取路由携带的商品id
     this.getSingleProductData();
-    if (this.goodsDetail.cartcount) {
-      this.goodsCount = this.goodsDetail.cartcount;
-    }
-    else {
-      this.goodsCount = 0;
-    }
   },
   methods: {
     goCart() {//去购物车
-
-
     },
     addCart() {//物车添加商品
       let self = this;
-      if (self.goodsCount < self.goodsDetail.total) {
-        self.goodsCount += 1
-      } else {
-        self.$toast('数量超过库存上限');
-      }
-      self.$http.post('https://icampaign.com.cn/gomineWechat/app/index.php', {
-        params: {
-          i: "8",
-          c: "entry",
-          do: "shop",
-          m: "ewei_shop",
-          p: "cart",
-          page: "1",
-          api: true,
-          op: "add",
-          id: this.goodsId
-        }
-      })
+        let postData = {};
+        postData.op = 'add';
+        postData.id = self.goodsId;
+        postData.total = 1;
+        postData.fid = self.$route.params.uid;
+
+        self.$http({
+          method: 'post',
+          url: 'https://icampaign.com.cn/gomineWechat/app/index.php',
+          params: {
+            i: "8",
+            c: "entry",
+            do: "shop",
+            m: "ewei_shop",
+            p: "cart",
+            api: true
+          },
+          data:self.$qs.stringify(postData)
+        })
+            .then(function (response) {
+              if(response.data.status === 1 && response.data.result.message === '添加成功'){
+                self.goodsCount ++ ;
+              }else if(response.data.result.message === '已在购物车'){
+                self.$toast('商品已在购物车内，数量请在购物车内修改');
+              }
+            })
+            .catch(function (error) {
+              console.info(error)
+            })
+
     },
     Buy(id) { //直接购买
-
-      this.$router.push({ name: 'buy', params: { value: id } });
-
+      this.$router.push({ name: 'buy', params: { id: id,uid:this.$route.params.uid  }});
     },
     getSingleProductData() {//商品介绍页面初始化
       let self = this;
@@ -110,6 +108,7 @@ export default {
         }
       }).then(function (response) {
         self.goodsDetail = response.data.result.goods;
+        self.goodsCount = response.data.result.cartcount;
       })
     }
   }

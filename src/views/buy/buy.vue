@@ -7,20 +7,20 @@
       <div class="right-detail">
         <div class="middle">
           <div class="top-part">
-            <div><span>收件人：<span>张呵呵呵</span></span></div>
+            <div><span>收件人：<span v-text="curAddress.name"></span></span></div>
             <div>
-              <span>电话：<span>13956888727</span></span>
+              <span>电话：<span v-text="curAddress.tel"></span></span>
             </div>
           </div>
-          <div class="top-part">浙江省金华市婺城区道心街338号四楼</div>
+          <div class="top-part" v-text="curAddress.addressDetail"></div>
         </div>
-        <div class="arrow-right">
+        <div class="arrow-right" @click="goAddressList">
           <van-icon name="arrow" />
         </div>
       </div>
     </div>
     <div class="goods">
-      <van-card
+      <van-card v-for="item in orderList" :key="item.goodsid"
         num="2"
         tag="标签"
         price="2.00"
@@ -30,34 +30,8 @@
         origin-price="10.00"
       >
         <div slot="footer">
-          <van-button
-            size="mini"
-            class="decrease"
-          >减少</van-button>
-          <van-button
-            size="mini"
-            class=" increase"
-          >增加</van-button>
-        </div>
-      </van-card>
-      <van-card
-        num="2"
-        tag="标签"
-        price="2.00"
-        desc="描述信息"
-        title="商品标题"
-        :thumb="imageURL"
-        origin-price="10.00"
-      >
-        <div slot="footer">
-          <van-button
-            size="mini"
-            class="decrease"
-          >减少</van-button>
-          <van-button
-            size="mini"
-            class="increase"
-          >增加</van-button>
+          <van-button size="mini" class="decrease">减少</van-button>
+          <van-button size="mini" class=" increase">增加</van-button>
         </div>
       </van-card>
     </div>
@@ -66,27 +40,50 @@
       button-text="提交订单"
       @submit="onSubmit()"
     >
-      <van-checkbox v-model="checked">全选</van-checkbox>
-      <span slot="tip">
-        你的收货地址不支持同城送, <span>修改地址</span>
-      </span>
     </van-submit-bar>
   </div>
 </template>
 <script>
 export default {
-  name: 'goods-list',
+  name: 'buy',
   data() {
     return {
-      checked: false,
-      imageURL: ''
+      imageURL: '',
+      curAddress:'',
+      orderList:[]
     }
+  },
+  mounted(){
+    this.getOrderList();
   },
   methods: {
+    getOrderList(){
+      let self = this;
+      self.$http.get('https://icampaign.com.cn/gomineWechat/app/index.php', {
+        params: {
+          i: "8",
+          c: "entry",
+          do: "order",
+          m: "ewei_shop",
+          p: "confirm",
+          api: true,
+          id: self.$route.params.id,
+          fid:self.$route.params.uid,
+          total:1
+        }
+      }).then(function (response) {
+        self.curAddress = response.data.result.address;
+        self.orderList = response.data.result.goods;
+        console.info(self.orderList)
+      })
+    },
     onSubmit() {
 
+    },
+    goAddressList(){
+
     }
-  },
+  }
 }
 </script>
 <style scoped>
