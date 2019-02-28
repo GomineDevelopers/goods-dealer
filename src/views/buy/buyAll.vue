@@ -17,54 +17,25 @@
                   v-text="curAddress.addressDetail"
           ></div>
         </div>
-        <div
-                class="arrow-right"
-                @click="goAddressList"
-        >
+        <div class="arrow-right" @click="goAddressList">
           <van-icon name="arrow" />
         </div>
       </div>
     </div>
     <div class="goods">
-      <van-checkbox-group v-model="result">
-        <div
-                class="goods-check"
-                v-for="(item,index) in orderList"
-                :key="index"
-        >
-          <van-checkbox
-                  :key="index"
-                  :name="index"
-                  checked-color="#07c160"
-          ></van-checkbox>
-          <van-card
-                  :num="item.total"
-                  :price="item.marketprice"
-                  :title="item.title"
-                  :thumb="item.thumb"
-          >
-
+      <van-checkbox-group v-model="selectedGoods">
+        <div class="goods-check" v-for="(item,index) in orderList" :key="item.id">
+          <van-checkbox :key="index" :name="item" checked-color="#07c160"></van-checkbox>
+          <van-card :num="item.total" :price="item.marketprice" :title="item.title" :thumb="item.thumb">
             <div slot="footer">
-              <van-button
-                      size="mini"
-                      class="decrease"
-                      @click="decrease(index)"
-              >减少</van-button>
-              <van-button
-                      size="mini"
-                      class=" increase"
-                      @click="add(index)"
-              >增加</van-button>
+              <van-button size="mini" class="decrease" @click="decrease(index)">减少</van-button>
+              <van-button size="mini" class=" increase" @click="add(index)">增加</van-button>
             </div>
           </van-card>
         </div>
       </van-checkbox-group>
     </div>
-    <van-submit-bar
-            :price="totalPrice"
-            button-text="提交订单"
-            @submit="onSubmit"
-    />
+    <van-submit-bar :price="totalPrice" button-text="提交订单" @submit="onSubmit"/>
   </div>
 </template>
 <script>
@@ -73,11 +44,11 @@
     data() {
       return {
         curAddress: '',
+        curAddressid:'',
         orderList: [],
         goodsTotal: 0,
         totalPrice: 0,
-        checked: true,
-        result: []
+        selectedGoods: []
       }
     },
     mounted() {
@@ -99,6 +70,7 @@
         }).then(function (response) {
           self.orderList = response.data.result.goods;
           self.curAddress = response.data.result.address;
+          self.curAddressid = response.data.result.address.id;
           self.totalPrice = Number(response.data.result.realprice+'00');
         })
       },
@@ -113,7 +85,58 @@
         this.orderList[index].total++
       },
       onSubmit() {
-        console.log(this.result)
+        let vm = this;
+        let postData = {};
+        let cartids = '';
+        let goodSelected = '';
+        postData.op = 'create';
+
+        for(let i =0;i< vm.selectedGoods.length;i++){//已选中的商品
+          for(let j =0;j< vm.orderList.length;j++){//所有商品
+            if(vm.selectedGoods[i].goodsid === vm.orderList[j].goodsid){
+              if(i === 0){
+                goodSelected = vm.orderList[j].goodsid+',0,'+vm.orderList[j].total;
+              }else{
+                goodSelected = goodSelected +'|'+ vm.orderList[j].goodsid+',0,'+vm.orderList[j].total;
+              }
+
+            }
+          }
+        }
+        postData.goods = goodSelected;
+        postData.fromcart = 1;//来自购物车
+        vm.selectedGoods.forEach(function (ele,index) {
+          if(index === 0){
+            cartids = ele.id ;
+          }else{
+            cartids = cartids +','+ ele.id
+          }
+        });
+        postData.cartids = cartids;
+        postData.addressid = vm.curAddressid;
+
+        vm.$http({
+          method: 'post',
+          url: 'https://icampaign.com.cn/gomineWechat/app/index.php',
+          params:{
+            i: "8",
+            c: "entry",
+            do: "order",
+            m: "ewei_shop",
+            p: "confirm",
+            api:true
+          },
+          data:vm.$qs.stringify(postData)
+        })
+            .then(function (response) {
+              if(response.data.status === 1){
+                vm.$router.replace({name:'buySuccessful',params:{ordersn:response.data.result.ordersn}})
+              }
+            })
+            .catch(function (error) {
+              console.info(error)
+            });
+
       },
       goAddressList() {
         this.$router.push({ name: 'addresslist' });
