@@ -51,13 +51,10 @@ export default {
       total: '',//总的页数量
       searchValue: '',//搜索关键字
       usertype: '1',//用户类型
-      uid:''
+      uid: ''
     }
   },
-  mounted() {
-    let vm = this;
-    vm.onLoad();
-  },
+
   methods: {
     onLoad() {//初始化加载方法
       let vm = this;
@@ -82,7 +79,7 @@ export default {
           vm.currentPage++;
           if (vm.currentPage >= vm.total) {
             vm.isLoading = false;
-              vm.finished = true;
+            vm.finished = true;
             vm.$toast('刷新成功');
           }
 
@@ -134,7 +131,7 @@ export default {
         this.$router.push({ name: 'addaddress', params: { value: id } });
       } else {
         this.$toast('跳转商品详情');
-        this.$router.push({ name: 'goodsdetail', params: { id: id,uid:this.uid } })
+        this.$router.push({ name: 'goodsdetail', params: { id: id, uid: this.uid } })
       }
 
     }
