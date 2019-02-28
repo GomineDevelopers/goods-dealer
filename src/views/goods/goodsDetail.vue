@@ -21,7 +21,10 @@
     </div>
     <div class="detail-footer">
       <van-goods-action>
-        <div class="van-info van-badge__info" v-text="goodsCount"></div>
+        <div
+          class="van-info van-badge__info"
+          v-text="goodsCount"
+        ></div>
         <van-goods-action-mini-btn
           icon="cart-o"
           text="购物车"
@@ -56,42 +59,43 @@ export default {
   },
   methods: {
     goCart() {//去购物车
+      this.$router.push({ name: 'buy' });
     },
     addCart() {//物车添加商品
       let self = this;
-        let postData = {};
-        postData.op = 'add';
-        postData.id = self.goodsId;
-        postData.total = 1;
-        postData.fid = self.$route.params.uid;
+      let postData = {};
+      postData.op = 'add';
+      postData.id = self.goodsId;
+      postData.total = 1;
+      postData.fid = self.$route.params.uid;
 
-        self.$http({
-          method: 'post',
-          url: 'https://icampaign.com.cn/gomineWechat/app/index.php',
-          params: {
-            i: "8",
-            c: "entry",
-            do: "shop",
-            m: "ewei_shop",
-            p: "cart",
-            api: true
-          },
-          data:self.$qs.stringify(postData)
+      self.$http({
+        method: 'post',
+        url: 'https://icampaign.com.cn/gomineWechat/app/index.php',
+        params: {
+          i: "8",
+          c: "entry",
+          do: "shop",
+          m: "ewei_shop",
+          p: "cart",
+          api: true
+        },
+        data: self.$qs.stringify(postData)
+      })
+        .then(function (response) {
+          if (response.data.status === 1 && response.data.result.message === '添加成功') {
+            self.goodsCount++;
+          } else if (response.data.result.message === '已在购物车') {
+            self.$toast('商品已在购物车内，数量请在购物车内修改');
+          }
         })
-            .then(function (response) {
-              if(response.data.status === 1 && response.data.result.message === '添加成功'){
-                self.goodsCount ++ ;
-              }else if(response.data.result.message === '已在购物车'){
-                self.$toast('商品已在购物车内，数量请在购物车内修改');
-              }
-            })
-            .catch(function (error) {
-              console.info(error)
-            })
+        .catch(function (error) {
+          console.info(error)
+        })
 
     },
     Buy(id) { //直接购买
-      this.$router.push({ name: 'buy', params: { id: id,uid:this.$route.params.uid  }});
+      this.$router.push({ name: 'buy', params: { id: id, uid: this.$route.params.uid } });
     },
     getSingleProductData() {//商品介绍页面初始化
       let self = this;
