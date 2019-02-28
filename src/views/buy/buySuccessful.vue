@@ -9,11 +9,12 @@
       <div class="content-row">
         您的订单号为：
       </div>
-      <div class="content-row">12121212121212221</div>
+      <div class="content-row" v-text="ordersn"></div>
       <div class="content-row">
         <van-button
           class="buttonSubmint"
           type="default"
+          @click="copyCon(ordersn)"
         >复制单号</van-button>
       </div>
       <div class="content-row">
@@ -36,12 +37,25 @@ export default {
   name: 'goods-list',
   data() {
     return {
-
+      ordersn:''
     }
   },
-  methods: {
-
+  mounted(){
+    this.getData();
   },
+  methods: {
+    getData(){
+      this.ordersn = this.$route.params.ordersn;
+    },
+    copyCon(message){
+      let vm = this;
+      vm.$copyText(message).then(function (e) {
+        vm.$toast.success('复制成功!');
+      }, function (e) {
+        vm.$toast.fail('复制失败!');
+      })
+    }
+  }
 }
 </script>
 <style scoped>

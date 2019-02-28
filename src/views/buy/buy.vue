@@ -75,18 +75,20 @@ export default {
         self.curAddress = response.data.result.address;
         self.curAddressid = response.data.result.address.id;
         self.orderList = response.data.result.goods;
-        self.totalPrice = response.data.result.realprice;
+        self.totalPrice = Number(response.data.result.realprice+'00');
       })
     },
     decrease(index){
-      if(this.orderList[index].total >0){
-        this.orderList[index].total --
+      if(this.orderList[index].total >1){
+        this.orderList[index].total --;
+        this.totalPrice =  Number(this.orderList[index].marketprice * this.orderList[index].total+'00');
       }else {
         this.$toast('不能再少了');
       }
     },
     add(index){
-      this.orderList[index].total ++
+      this.orderList[index].total ++;
+      this.totalPrice =  Number(this.orderList[index].marketprice * this.orderList[index].total+'00');
     },
     onSubmit() {
       let vm = this;
@@ -106,14 +108,13 @@ export default {
           do: "order",
           m: "ewei_shop",
           p: "confirm",
-          api: "true"
+          api:true
         },
         data:vm.$qs.stringify(postData)
       })
           .then(function (response) {
             if(response.data.status === 1){
-              vm.ordersn = response.data.ordersn;
-              vm.isSuccess = true;
+              vm.$router.replace({name:'buySuccessful',params:{ordersn:response.data.result.ordersn}})
             }
           })
           .catch(function (error) {

@@ -99,6 +99,7 @@ export default {
       }).then(function (response) {
         self.orderList = response.data.result.goods;
         self.curAddress = response.data.result.address;
+        self.totalPrice = Number(response.data.result.realprice+'00');
       })
     },
     decrease(index) {
