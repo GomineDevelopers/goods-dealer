@@ -7,10 +7,6 @@ import axios from 'axios'
 import 'vant/lib/index.css';
 import qs from 'qs';
 import './assets/common.css'
-import VueClipboard from 'vue-clipboard2'
-
-VueClipboard.config.autoSetContainer = true
-Vue.use(VueClipboard)
 Vue.config.productionTip = false
 Vue.use(Vant);
 Vue.prototype.$qs = qs;
