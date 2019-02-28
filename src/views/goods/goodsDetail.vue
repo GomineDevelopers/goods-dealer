@@ -56,9 +56,7 @@
     },
     methods: {
       goCart() {//去购物车
-        if(this.$commonTools.getCookie("goodsIds")){
-          this.$router.push({ name: 'buyAll'});
-        }
+        this.$router.push({ name: 'buyAll'});
       },
       addCart() {//物车添加商品
         let self = this;
@@ -84,14 +82,6 @@
             .then(function (response) {
               if(response.data.status === 1 && response.data.result.message === '添加成功'){
                 self.goodsCount ++ ;
-                /*加入购物车功能就要把商品id存下来*/
-                let idStr = '';
-                if(self.$commonTools.getCookie("goodsIds")){
-                  idStr = self.$commonTools.getCookie("goodsIds") + ','+self.goodsId;
-                }else{
-                  idStr = self.goodsId;
-                }
-                self.$commonTools.setCookie("goodsIds", idStr, 1);
               }else if(response.data.result.message === '已在购物车'){
                 self.$toast('商品已在购物车内，数量请在购物车内修改');
               }

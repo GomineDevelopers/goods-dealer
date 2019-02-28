@@ -8,7 +8,6 @@ import 'vant/lib/index.css';
 import qs from 'qs';
 import './assets/common.css'
 import VueClipboard from 'vue-clipboard2'
-import {commonTools} from './common';
 
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
@@ -16,7 +15,6 @@ Vue.config.productionTip = false
 Vue.use(Vant);
 Vue.prototype.$qs = qs;
 Vue.prototype.$http = axios;
-Vue.prototype.$commonTools = commonTools;
 router.beforeEach((to, from, next) => {
   const title = to.meta && to.meta.title;
   if (title) {
