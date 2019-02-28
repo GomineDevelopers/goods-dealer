@@ -41,16 +41,14 @@
 </template>
 <script>
 export default {
-  name: 'buy',
+  name: 'buyAll',
   data() {
     return {
       curAddress:'',
-      curAddressid:'',
       orderList:[],
       goodsTotal:0,
       totalPrice:0,
-      ordersn:'',
-      isSuccess:false
+      checked:true
     }
   },
   mounted(){
@@ -66,16 +64,11 @@ export default {
           do: "order",
           m: "ewei_shop",
           p: "confirm",
-          api: true,
-          id: self.$route.params.id,
-          fid:self.$route.params.uid,
-          total:1
+          api: true
         }
       }).then(function (response) {
-        self.curAddress = response.data.result.address;
-        self.curAddressid = response.data.result.address.id;
         self.orderList = response.data.result.goods;
-        self.totalPrice = response.data.result.realprice;
+        self.curAddress = response.data.result.address;
       })
     },
     decrease(index){
@@ -89,36 +82,7 @@ export default {
       this.orderList[index].total ++
     },
     onSubmit() {
-      let vm = this;
-      let postData = {};
-      postData.op = 'create';
-      postData.goods = vm.orderList[0].goodsid+',0,'+vm.orderList[0].total;
-      postData.fromcart = 0;//来自立即购买
-      postData.addressid = vm.curAddressid;
-      postData.fid = vm.$route.params.uid;
 
-      vm.$http({
-        method: 'post',
-        url: 'https://icampaign.com.cn/gomineWechat/app/index.php',
-        params:{
-          i: "8",
-          c: "entry",
-          do: "order",
-          m: "ewei_shop",
-          p: "confirm",
-          api: "true"
-        },
-        data:vm.$qs.stringify(postData)
-      })
-          .then(function (response) {
-            if(response.data.status === 1){
-              vm.ordersn = response.data.ordersn;
-              vm.isSuccess = true;
-            }
-          })
-          .catch(function (error) {
-            console.info(error)
-          });
     },
     goAddressList(){
       this.$router.push({ name: 'addresslist'});

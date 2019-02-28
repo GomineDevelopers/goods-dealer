@@ -54,20 +54,6 @@ export default {
       uid:''
     }
   },
-  // directives: {
-  //   focus: {
-  //     // 指令的定义
-  //     inserted: function (search) {
-  //       search.focus()
-  //     }
-  //   },
-  //   onblur: {
-  //     // 指令的定义
-  //     inserted: function (search) {
-  //       search.onblur()
-  //     }
-  //   }
-  // },
   mounted() {
     let vm = this;
     vm.onLoad();
@@ -95,7 +81,7 @@ export default {
           vm.loading = false;
           vm.currentPage++;
           if (vm.currentPage >= vm.total) {
-            vm.isLoading = false,
+            vm.isLoading = false;
               vm.finished = true;
             vm.$toast('刷新成功');
           }
