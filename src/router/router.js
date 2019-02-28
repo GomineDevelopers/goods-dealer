@@ -54,6 +54,11 @@ export default new Router({
       component: () => import('../views/buy/buyAll.vue')
     },
     {
+      path: '/buyAll/:source',
+      name: 'buyAll',
+      component: () => import('../views/buy/buyAll.vue')
+    },
+    {
       path: '/buysuccessful/:ordersn',
       name: 'buySuccessful',
       component: () => import('../views/buy/buySuccessful.vue')
