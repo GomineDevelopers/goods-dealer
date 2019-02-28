@@ -22,6 +22,11 @@ export default new Router({
       component: () => import('../views/address/addressList.vue')
     },
     {
+      path: '/addresslist/:source',
+      name: 'addresslistSource',
+      component: () => import('../views/address/addressList.vue')
+    },
+    {
       path: '/addressEdit/:id',
       name: 'addressEdit',
       component: () => import('../views/address/addressEdit.vue')

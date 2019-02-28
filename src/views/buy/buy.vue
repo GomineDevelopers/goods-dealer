@@ -1,6 +1,9 @@
 <template>
   <div class="buy">
-    <div class="address-wrapper">
+    <div
+      class="address-wrapper"
+      @click="goAddressList"
+    >
       <div class="location-wrapper">
         <van-icon name="location-o" />
       </div>
@@ -12,23 +15,36 @@
               <span>电话：<span v-text="curAddress.tel"></span></span>
             </div>
           </div>
-          <div class="top-part" v-text="curAddress.addressDetail"></div>
+          <div
+            class="top-part"
+            v-text="curAddress.addressDetail"
+          ></div>
         </div>
-        <div class="arrow-right" @click="goAddressList">
+        <div class="arrow-right">
           <van-icon name="arrow" />
         </div>
       </div>
     </div>
     <div class="goods">
-      <van-card v-for="(item,index) in orderList" :key="item.goodsid"
+      <van-card
+        v-for="(item,index) in orderList"
+        :key="item.goodsid"
         :num="item.total"
         :price="item.marketprice"
         :title="item.title"
         :thumb="item.thumb"
       >
         <div slot="footer">
-          <van-button size="mini" class="decrease" @click="decrease(index)">减少</van-button>
-          <van-button size="mini" class=" increase" @click="add(index)">增加</van-button>
+          <van-button
+            size="mini"
+            class="decrease"
+            @click="decrease(index)"
+          >减少</van-button>
+          <van-button
+            size="mini"
+            class=" increase"
+            @click="add(index)"
+          >增加</van-button>
         </div>
       </van-card>
     </div>
@@ -44,20 +60,21 @@ export default {
   name: 'buy',
   data() {
     return {
-      curAddress:'',
-      curAddressid:'',
-      orderList:[],
-      goodsTotal:0,
-      totalPrice:0,
-      ordersn:'',
-      isSuccess:false
+      curAddress: '',
+      curAddressid: '',
+      orderList: [],
+      goodsTotal: 0,
+      totalPrice: 0,
+      ordersn: '',
+      isSuccess: false,
+      source: 'buy'
     }
   },
-  mounted(){
+  mounted() {
     this.getOrderList();
   },
   methods: {
-    getOrderList(){
+    getOrderList() {
       let self = this;
       self.$http.get('https://icampaign.com.cn/gomineWechat/app/index.php', {
         params: {
@@ -68,33 +85,33 @@ export default {
           p: "confirm",
           api: true,
           id: self.$route.params.id,
-          fid:self.$route.params.uid,
-          total:1
+          fid: self.$route.params.uid,
+          total: 1
         }
       }).then(function (response) {
         self.curAddress = response.data.result.address;
         self.curAddressid = response.data.result.address.id;
         self.orderList = response.data.result.goods;
-        self.totalPrice = Number(response.data.result.realprice+'00');
+        self.totalPrice = Number(response.data.result.realprice + '00');
       })
     },
-    decrease(index){
-      if(this.orderList[index].total >1){
-        this.orderList[index].total --;
-        this.totalPrice =  Number(this.orderList[index].marketprice * this.orderList[index].total+'00');
-      }else {
+    decrease(index) {
+      if (this.orderList[index].total > 1) {
+        this.orderList[index].total--;
+        this.totalPrice = Number(this.orderList[index].marketprice * this.orderList[index].total + '00');
+      } else {
         this.$toast('不能再少了');
       }
     },
-    add(index){
-      this.orderList[index].total ++;
-      this.totalPrice =  Number(this.orderList[index].marketprice * this.orderList[index].total+'00');
+    add(index) {
+      this.orderList[index].total++;
+      this.totalPrice = Number(this.orderList[index].marketprice * this.orderList[index].total + '00');
     },
     onSubmit() {
       let vm = this;
       let postData = {};
       postData.op = 'create';
-      postData.goods = vm.orderList[0].goodsid+',0,'+vm.orderList[0].total;
+      postData.goods = vm.orderList[0].goodsid + ',0,' + vm.orderList[0].total;
       postData.fromcart = 0;//来自立即购买
       postData.addressid = vm.curAddressid;
       postData.fid = vm.$route.params.uid;
@@ -102,27 +119,27 @@ export default {
       vm.$http({
         method: 'post',
         url: 'https://icampaign.com.cn/gomineWechat/app/index.php',
-        params:{
+        params: {
           i: "8",
           c: "entry",
           do: "order",
           m: "ewei_shop",
           p: "confirm",
-          api:true
+          api: true
         },
-        data:vm.$qs.stringify(postData)
+        data: vm.$qs.stringify(postData)
       })
-          .then(function (response) {
-            if(response.data.status === 1){
-              vm.$router.replace({name:'buySuccessful',params:{ordersn:response.data.result.ordersn}})
-            }
-          })
-          .catch(function (error) {
-            console.info(error)
-          });
+        .then(function (response) {
+          if (response.data.status === 1) {
+            vm.$router.replace({ name: 'buySuccessful', params: { ordersn: response.data.result.ordersn } })
+          }
+        })
+        .catch(function (error) {
+          console.info(error)
+        });
     },
-    goAddressList(){
-      this.$router.push({ name: 'addresslist'});
+    goAddressList() {
+      this.$router.push({ name: 'addresslist', params: { source: this.source } });
     }
   }
 }

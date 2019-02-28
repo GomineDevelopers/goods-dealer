@@ -5,7 +5,7 @@
       :list="addressList"
       @add="onAdd"
       @edit="onEdit"
-      @select = "addressSelect"
+      @select="addressSelect"
     />
   </div>
 </template>
@@ -19,21 +19,22 @@ export default {
       addressList: []
     }
   },
-mounted(){
-  this.getAddressListData();
-},
+  mounted() {
+    this.getAddressListData();
+    console.log()
+  },
   methods: {
     onAdd() {
-      this.$router.push({ name: 'address'});
+      this.$router.push({ name: 'address' });
     },
 
     onEdit(item) {
       this.$router.push({ name: 'addressEdit', params: { id: item.id } });
     },
-    getAddressListData(){//初始获取地址列表信息
-      let vm=this;
-      vm.$http.get('https://icampaign.com.cn/gomineWechat/app/index.php',{
-        params:{
+    getAddressListData() {//初始获取地址列表信息
+      let vm = this;
+      vm.$http.get('https://icampaign.com.cn/gomineWechat/app/index.php', {
+        params: {
           i: "8",
           c: "entry",
           do: "shop",
@@ -44,18 +45,18 @@ mounted(){
         }
       })
         .then(function (response) {
-          vm.addressList=response.data.result.list;
+          vm.addressList = response.data.result.list;
           vm.addressList.forEach(function (ele) {
-            if(ele.isDefault === '1'){
+            if (ele.isDefault === '1') {
               vm.chosenAddressId = ele.id;
             }
           })
         })
-          .catch(function(error) {
-            console.log(error);
-          });
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    addressSelect(item){
+    addressSelect(item) {
       let vm = this;
       let postData = {};
       postData.op = 'setdefault';
@@ -63,7 +64,7 @@ mounted(){
       vm.$http({
         method: 'post',
         url: 'https://icampaign.com.cn/gomineWechat/app/index.php',
-        params:{
+        params: {
           i: "8",
           c: "entry",
           do: "shop",
@@ -71,16 +72,21 @@ mounted(){
           p: "address",
           api: "true"
         },
-        data:vm.$qs.stringify(postData)
+        data: vm.$qs.stringify(postData)
       })
-          .then(function (response) {
-            if(response.data.status === 1){
-              vm.$router.replace({name:'addresslist'})
+        .then(function (response) {
+          if (response.data.status === 1) {
+            if (vm.$route.params.source) {
+              vm.$router.go(-1);
+            } else {
+              vm.$router.replace({ name: 'addresslist' })
             }
-          })
-          .catch(function (error) {
-            console.info(error)
-          });
+
+          }
+        })
+        .catch(function (error) {
+          console.info(error)
+        });
 
     }
   }
