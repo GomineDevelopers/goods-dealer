@@ -246,6 +246,7 @@ export default {
 }
 .goods {
   margin: 1vh 0;
+  padding-bottom: 10vh;
 }
 .increase {
   background-color: #ee5603;
