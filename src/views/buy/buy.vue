@@ -98,14 +98,15 @@ export default {
     decrease(index) {
       if (this.orderList[index].total > 1) {
         this.orderList[index].total--;
-        this.totalPrice = Number(this.orderList[index].marketprice * this.orderList[index].total + '00');
+        this.totalPrice = this.orderList[index].marketprice*100 * this.orderList[index].total;
       } else {
         this.$toast('不能再少了');
       }
     },
     add(index) {
       this.orderList[index].total++;
-      this.totalPrice = Number(this.orderList[index].marketprice * this.orderList[index].total + '00');
+      this.totalPrice = this.orderList[index].marketprice*100 * this.orderList[index].total;
+
     },
     onSubmit() {
       let vm = this;
