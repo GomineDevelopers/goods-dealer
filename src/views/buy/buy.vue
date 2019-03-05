@@ -92,7 +92,7 @@ export default {
         self.curAddress = response.data.result.address;
         self.curAddressid = response.data.result.address.id;
         self.orderList = response.data.result.goods;
-        self.totalPrice = Number(response.data.result.realprice + '00');
+        self.totalPrice = response.data.result.realprice*100;
       })
     },
     decrease(index) {
